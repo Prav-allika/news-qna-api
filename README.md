@@ -3,7 +3,7 @@
 [![Live Demo](https://img.shields.io/badge/Demo-Try%20Now-brightgreen?style=for-the-badge&logo=huggingface)](https://huggingface.co/spaces/Prav04/news-qna-api)
 [![GitHub](https://img.shields.io/badge/Code-GitHub-black?style=for-the-badge&logo=github)](https://github.com/Prav-allika/news-qna-api)
 
-**Try it live:** https://huggingface.co/spaces/Prav04/news-qna-api
+** Try it live:** https://huggingface.co/spaces/Prav04/news-qna-api
 
 A production-ready API that fetches real-time news, generates summaries, and answers questions about current events using HuggingFace Transformers and NewsAPI.
 
@@ -11,21 +11,29 @@ A production-ready API that fetches real-time news, generates summaries, and ans
 
 ## Features
 
-- **Real-Time News**: Fetch latest headlines from NewsAPI across multiple categories
-- **Smart Summarization**: Generate concise summaries using BART model
-- **Question Answering**: Ask questions about news articles using DistilBERT
-- **Interactive UI**: User-friendly Gradio interface
-- **REST API**: FastAPI endpoints for programmatic access
+- **Real-Time News Fetching**: Get latest headlines from 80,000+ sources via NewsAPI
+- **AI Summarization**: Generate concise summaries using BART (facebook/bart-large-cnn)
+- **Question Answering**: Ask questions about news using DistilBERT
+- **Interactive Interface**: User-friendly Gradio web interface
+- **Multiple Categories**: Technology, Business, Sports, Entertainment, Health, Science
+
+## Live Demo
+
+**Try it now:** https://huggingface.co/spaces/Prav04/news-qna-api
+
+1. **Fetch News**: Select category and get latest articles
+2. **Summarize**: Generate AI-powered summary of all articles
+3. **Ask Questions**: Get instant answers about the news
 
 ## Technology Stack
 
-- **FastAPI** - High-performance API framework
 - **HuggingFace Transformers** - State-of-the-art NLP models
   - BART (facebook/bart-large-cnn) for summarization
   - DistilBERT (distilbert-base-cased-distilled-squad) for Q&A
-- **NewsAPI** - Real-time news data from 80,000+ sources
+- **NewsAPI** - Real-time news from 80,000+ sources worldwide
 - **Gradio** - Interactive web interface
-- **Docker** - Containerized deployment
+- **PyTorch** - Deep learning framework
+- **FastAPI** - High-performance API framework (optional)
 
 ## Quick Start
 
@@ -45,66 +53,44 @@ cd news-qna-api
 pip install -r requirements.txt
 
 # Set up environment
-cp .env.example .env
-# Add your NewsAPI key to .env
+echo "NEWS_API_KEY=your_key_here" > .env
 ```
 
 ### Run Locally
 
-**Option 1: Gradio Interface (Recommended)**
-
+**Gradio Interface:**
 ```bash
 python app_gradio.py
 ```
-
 Visit `http://localhost:7860`
 
-**Option 2: FastAPI Server**
-
+**FastAPI Server:**
 ```bash
 uvicorn app.main:app --reload
 ```
-
 Visit `http://localhost:8000/docs` for API documentation
 
 ## Usage Examples
 
 ### Via Gradio Interface
 
-1. **Fetch News**: Select category (Technology, Business, etc.) and fetch latest headlines
-2. **Summarize**: Click "Generate Summary" to get a concise overview
-3. **Ask Questions**: Type any question about the fetched news
+1. **Select Category**: Choose from Technology, Business, Sports, etc.
+2. **Fetch News**: Click "Fetch News" to get latest articles
+3. **Summarize**: Click "Generate Summary" for overview
+4. **Ask Questions**: Type any question about the articles
 
-### Via API
+### Example Questions
 
-**Fetch Latest News:**
-```bash
-curl http://localhost:8000/news/latest?category=technology&count=5
-```
+- "What are the main topics covered?"
+- "Which companies are mentioned?"
+- "What are the latest developments?"
+- "Who are the key people in the news?"
 
-**Summarize Text:**
-```bash
-curl -X POST http://localhost:8000/summarize \
-  -H "Content-Type: application/json" \
-  -d '{"text": "Your long article text here..."}'
-```
-
-**Ask Questions:**
-```bash
-curl -X POST http://localhost:8000/ask \
-  -H "Content-Type: application/json" \
-  -d '{
-    "question": "What is the main topic?",
-    "context": "Article text here..."
-  }'
-```
-
-## API Endpoints
+## API Endpoints (FastAPI Mode)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/news/latest` | GET | Fetch latest headlines by category |
-| `/news/search` | GET | Search news by keyword |
 | `/summarize` | POST | Summarize article text |
 | `/ask` | POST | Answer questions based on context |
 | `/docs` | GET | Interactive API documentation |
@@ -120,41 +106,43 @@ news-qna-api/
 │   └── news_fetcher.py  # NewsAPI integration
 ├── app_gradio.py        # Gradio interface
 ├── requirements.txt     # Dependencies
-├── Dockerfile          # Docker configuration
 └── README.md
 ```
 
-## Models Used
+## Models
 
-### Summarization
-- **Model**: facebook/bart-large-cnn
+### Summarization Model
+- **Name**: facebook/bart-large-cnn
+- **Task**: Text summarization
 - **Size**: 406MB
-- **Speed**: ~2-3 seconds per article
-- **Max Input**: 1024 tokens
+- **Performance**: 2-3 seconds per article
 
-### Question Answering
-- **Model**: distilbert-base-cased-distilled-squad
+### Question Answering Model
+- **Name**: distilbert-base-cased-distilled-squad
+- **Task**: Extractive Q&A
 - **Size**: 261MB
-- **Speed**: < 1 second per query
-- **Accuracy**: 90%+ on SQuAD benchmark
+- **Performance**: < 1 second per query
 
 ## Deployment
 
-### HuggingFace Spaces (Recommended)
+### HuggingFace Spaces (Deployed)
+
+**Live at:** https://huggingface.co/spaces/Prav04/news-qna-api
+
+The app is deployed on HuggingFace Spaces with:
+- 16GB RAM
+- CPU inference
+- 99.9% uptime
+- Free forever
+
+### Deploy Your Own
 
 1. Fork this repository
-2. Create new Space on HuggingFace
+2. Create Space on HuggingFace
 3. Select "Gradio" as SDK
-4. Connect your repository
-5. Add `NEWS_API_KEY` in Space settings
+4. Connect repository
+5. Add `NEWS_API_KEY` in Space secrets
 6. Deploy automatically!
-
-### Docker
-
-```bash
-docker build -t news-qna-api .
-docker run -p 8000:8000 -e NEWS_API_KEY=your_key news-qna-api
-```
 
 ## Configuration
 
@@ -164,52 +152,51 @@ docker run -p 8000:8000 -e NEWS_API_KEY=your_key news-qna-api
 NEWS_API_KEY=your_newsapi_key_here
 ```
 
+Get your free API key at [newsapi.org/register](https://newsapi.org/register)
+
 ### NewsAPI Categories
 
-- `technology`
-- `business`
-- `sports`
-- `entertainment`
-- `health`
-- `science`
+- `technology` - Tech industry news
+- `business` - Business and finance
+- `sports` - Sports and games
+- `entertainment` - Movies, music, celebrities
+- `health` - Healthcare and wellness
+- `science` - Scientific discoveries
 
-### NewsAPI Limits
+### NewsAPI Limits (Free Tier)
 
-- **Free Tier**: 100 requests/day
-- **Rate Limit**: 5 requests/second
-- **Coverage**: 80,000+ sources worldwide
+- **Requests**: 100 per day
+- **Rate**: Up to 5 requests/second
+- **Sources**: 80,000+ worldwide
+- **Coverage**: 150+ countries
 
 ## Performance
 
 - **Startup Time**: 30 seconds (model loading)
 - **News Fetch**: < 1 second
-- **Summarization**: 2-3 seconds
-- **Q&A**: < 1 second
+- **Summarization**: 2-3 seconds per article
+- **Question Answering**: < 1 second per query
 - **Memory Usage**: ~2GB RAM
+- **Concurrent Users**: Multiple simultaneous queries
 
-## Example Questions
+## Screenshots
 
-Try asking:
-
-- "What are the main topics in today's news?"
-- "Who are the key companies mentioned?"
-- "What technological breakthroughs are discussed?"
-- "Summarize the business news in 2 sentences"
+[Add screenshots of your live app here]
 
 ## Future Enhancements
 
-- [ ] Multi-source aggregation (RSS feeds, Twitter, etc.)
-- [ ] Sentiment analysis
-- [ ] Topic clustering
-- [ ] Trend detection
-- [ ] Caching layer (Redis)
+- [ ] Multi-source news aggregation (RSS feeds, Twitter)
+- [ ] Sentiment analysis of news articles
+- [ ] Topic clustering and trend detection
+- [ ] Conversation history
+- [ ] Caching layer (Redis) for faster responses
 - [ ] User authentication
-- [ ] Rate limiting
-- [ ] Webhook notifications
+- [ ] Advanced filtering options
+- [ ] Citation tracking with source links
 
 ## Contributing
 
-Contributions welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
@@ -218,15 +205,17 @@ MIT License - See LICENSE file for details
 ## Acknowledgments
 
 - NewsAPI for real-time news data
-- HuggingFace for pre-trained models
-- FastAPI and Gradio for excellent frameworks
+- HuggingFace for pre-trained transformer models
+- Gradio for the excellent web interface framework
+- FastAPI for high-performance API framework
 
 ## Contact
 
 **Pravalli**
 - GitHub: [@Prav-allika](https://github.com/Prav-allika)
 - HuggingFace: [@Prav04](https://huggingface.co/Prav04)
+- LinkedIn: [Connect with me](https://linkedin.com/in/your-profile)
 
 ---
 
-**Live Demo**: https://huggingface.co/spaces/Prav04/news-qna-api
+** Live Demo**: https://huggingface.co/spaces/Prav04/news-qna-api | **⭐ Star this repo if you find it useful!**
